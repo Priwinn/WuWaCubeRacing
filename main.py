@@ -137,6 +137,7 @@ if __name__ == "__main__":
     print(f"Results after {repetitions} simulations: {results}")
     #Expected payout
     win_rates = {cube.name: results[cube.name] / repetitions for cube in cubes}
+    print(f"Win rates after {repetitions} simulations: {win_rates}")
     expected_payout = {cube.name: win_rates[cube.name] * payout[cube.name] + 0.8*(1-win_rates[cube.name]) for cube in cubes} #80% refund for not winning
     print(f"Expected payout after {repetitions} simulations: {expected_payout}")
 
