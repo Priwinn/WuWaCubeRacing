@@ -20,6 +20,8 @@ def run_round(race_track, cubes, debug=False, round_counter=0, round=1):
         if i == len(cubes) - 1:
             cube.last_moved = True  # Mark the last moved cube
         cube.execute_move(race_track)
+        if race_track[-1] != []:
+            return
         for j, otherCube in enumerate(cubes):
             if j != i:
                 otherCube.after_opponent_move(race_track, cube)
@@ -28,6 +30,8 @@ def run_round(race_track, cubes, debug=False, round_counter=0, round=1):
         cube.end_round(race_track)
         cube.last_moved = False  # Reset last moved status for all cubes
         cube.first_mover = False  # Reset first mover status for all cubes
+        if race_track[-1] != []:
+            return
 
 
 def main(cubes, race_track, debug=False,round=1):
@@ -47,21 +51,21 @@ if __name__ == "__main__":
     repetitions = 10000
     debug = False
     track_length = 24
-    round = 2  # Set to 1 for the first round, 2 for the second round
+    round = 1  # Set to 1 for the first round, 2 for the second round
 
     cubes = [
-            # ShorekeeperCube(debug=debug),
-            # CarlottaCube(debug=debug),
-            # CalcharoCube(debug=debug),
+            ShorekeeperCube(debug=debug),
+            CarlottaCube(debug=debug),
+            CalcharoCube(debug=debug),
             # ChangliCube(debug=debug),
             # CamellyaCube(debug=debug),
-            # JinhsiCube(debug=debug),
-            RocciaCube(debug=debug),
-            BrantCube(debug=debug),
-            CantarellaCube(debug=debug),
-            ZaniCube(debug=debug),
-            CartethyaCube(debug=debug),
-            PhoebeCube(debug=debug),
+            JinhsiCube(debug=debug),
+            # RocciaCube(debug=debug),
+            # BrantCube(debug=debug),
+            # CantarellaCube(debug=debug),
+            # ZaniCube(debug=debug),
+            # CartethyaCube(debug=debug),
+            # PhoebeCube(debug=debug),
 
     ]
     # Define starting positions for each cube in round 2
@@ -76,18 +80,18 @@ if __name__ == "__main__":
 
 
     payout ={
-        # "CarlottaCube": 1.15,
-        # "CalcharoCube": 1.7,
-        # "ShorekeeperCube": 1.44,
+        "CarlottaCube": 1.15,
+        "CalcharoCube": 1.7,
+        "ShorekeeperCube": 1.44,
         # "ChangliCube": 1.84,
-        # "JinhsiCube": 1.58,
+        "JinhsiCube": 1.58,
         # "CamellyaCube": 1.97,
-        "RocciaCube": 1.34,
-        "BrantCube": 1.6,
-        "CantarellaCube": 1.78,
-        "ZaniCube": 1.61,
-        "CartethyaCube": 1.88,
-        "PhoebeCube": 1.79,
+        # "RocciaCube": 1.34,
+        # "BrantCube": 1.6,
+        # "CantarellaCube": 1.78,
+        # "ZaniCube": 1.61,
+        # "CartethyaCube": 1.88,
+        # "PhoebeCube": 1.79,
         
     }
 
@@ -95,18 +99,18 @@ if __name__ == "__main__":
     results = {cube.name: 0 for cube in cubes}
     for i in range(repetitions):
         cubes = [
-            # ShorekeeperCube(debug=debug),
-            # CarlottaCube(debug=debug),
-            # CalcharoCube(debug=debug),
+            ShorekeeperCube(debug=debug),
+            CarlottaCube(debug=debug),
+            CalcharoCube(debug=debug),
             # ChangliCube(debug=debug),
             # CamellyaCube(debug=debug),
-            # JinhsiCube(debug=debug),
-            RocciaCube(debug=debug),
-            BrantCube(debug=debug),
-            CantarellaCube(debug=debug),
-            ZaniCube(debug=debug),
-            CartethyaCube(debug=debug),
-            PhoebeCube(debug=debug),
+            JinhsiCube(debug=debug),
+            # RocciaCube(debug=debug),
+            # BrantCube(debug=debug),
+            # CantarellaCube(debug=debug),
+            # ZaniCube(debug=debug),
+            # CartethyaCube(debug=debug),
+            # PhoebeCube(debug=debug),
         ]
 
         

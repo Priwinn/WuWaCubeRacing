@@ -258,19 +258,20 @@ class CartethyaCube(BaseCube):
             for pad in race_track:
                 if pad == []:
                     continue
-                if pad[0] == self:
-                    if random() < 0.6:
-                        if self.debug:
-                            print(f"{self.name} activated skill and will move 2 spaces forward for the remaining rounds")
-                        self.activated_skill = True
-                        break
+                if len(pad) > 0:
+                    if pad[0] == self:
+                        if random() < 0.6:
+                            if self.debug:
+                                print(f"{self.name} activated skill and will move 2 spaces forward for the remaining rounds")
+                            self.activated_skill = True
+                    break
 
 class PhoebeCube(BaseCube):
     def __init__(self, name="PhoebeCube", debug=False):
         super().__init__(name, debug=debug)
 
 
-    #%0 chance to move an extra space
+    #%50 chance to move an extra space
     def execute_move(self, race_track, dice_roll=None):
         if dice_roll is None:
             dice_roll = self.roll_dice()
