@@ -1,7 +1,7 @@
 from cubes import *
 from random import shuffle
 from random import randint
-
+import copy 
 
 
 def run_round(race_track, cubes, debug=False, round_counter=0, round=1):
@@ -44,11 +44,11 @@ def main(cubes, race_track, debug=False,round=1):
             print(f"\n--- Round {round_count + 1} ---")
         run_round(race_track, cubes, debug=debug, round_counter=round_count, round=round)
         round_count += 1
-    return race_track[-1][-1] # It looks like to last in the stack is the winner
+    return race_track[-1][-1] # It looks like the last in the stack is the winner
 
 
 if __name__ == "__main__":
-    repetitions = 10000
+    repetitions = 100000
     debug = False
     track_length = 24
     round = 1  # Set to 1 for the first round, 2 for the second round
@@ -80,18 +80,18 @@ if __name__ == "__main__":
 
 
     payout ={
-        "CarlottaCube": 1.15,
-        "CalcharoCube": 1.7,
-        "ShorekeeperCube": 1.44,
-        # "ChangliCube": 1.84,
-        "JinhsiCube": 1.58,
-        # "CamellyaCube": 1.97,
-        # "RocciaCube": 1.34,
-        # "BrantCube": 1.6,
-        # "CantarellaCube": 1.78,
-        # "ZaniCube": 1.61,
-        # "CartethyaCube": 1.88,
-        # "PhoebeCube": 1.79,
+        "CarlottaCube": 1.2,
+        "CalcharoCube": 1.63,
+        "ShorekeeperCube": 1.19,
+        "ChangliCube": 1.84,
+        "JinhsiCube": 1.25,
+        "CamellyaCube": 1.97,
+        "RocciaCube": 1.34,
+        "BrantCube": 1.6,
+        "CantarellaCube": 1.78,
+        "ZaniCube": 1.61,
+        "CartethyaCube": 1.88,
+        "PhoebeCube": 1.79,
         
     }
 
@@ -99,32 +99,19 @@ if __name__ == "__main__":
     results = {cube.name: 0 for cube in cubes}
     for i in range(repetitions):
         cubes = [
-            ShorekeeperCube(debug=debug),
-            CarlottaCube(debug=debug),
-            CalcharoCube(debug=debug),
-            # ChangliCube(debug=debug),
-            # CamellyaCube(debug=debug),
-            JinhsiCube(debug=debug),
-            # RocciaCube(debug=debug),
-            # BrantCube(debug=debug),
-            # CantarellaCube(debug=debug),
-            # ZaniCube(debug=debug),
-            # CartethyaCube(debug=debug),
-            # PhoebeCube(debug=debug),
+            copy.deepcopy(cube) for cube in cubes  # Deep copy to reset the state of each cube for each simulation
         ]
 
-        
-        print(f"Running simulation {i+1}")
-        
+
         #Round 1
         if round == 1:
             shuffle(cubes)
             race_track = [[] for _ in range(track_length)]
             race_track[0] = cubes.copy()  # Place all cubes at the start
             race_track[0].reverse()  # Reverse the order to match the stack positions
-            for i, cube in enumerate(cubes):
+            for j, cube in enumerate(cubes):
                 cube.position = 0
-                cube.stack_position = len(cubes)-i-1  # Stack position is the reverse of the index in the initial list
+                cube.stack_position = len(cubes)-j-1  # Stack position is the reverse of the index in the initial list
         #Round 2
         elif round == 2:
             race_track = [[] for _ in range(track_length+4)]
@@ -137,7 +124,8 @@ if __name__ == "__main__":
 
         winner = main(cubes=cubes, race_track=race_track, debug=debug, round=round)
         results[winner.name] += 1
-        print(f"Winner of simulation {i+1}: {winner.name}")
+        if i % 100 == 0:
+            print(f"Simulation {i+1}: {winner.name} wins")
     print(f"Results after {repetitions} simulations: {results}")
     #Expected payout
     win_rates = {cube.name: results[cube.name] / repetitions for cube in cubes}

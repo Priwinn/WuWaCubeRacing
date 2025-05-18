@@ -68,12 +68,20 @@ class CalcharoCube(BaseCube):
     def __init__(self, name="CalcharoCube", debug=False):
         super().__init__(name, debug=debug)
 
-    def end_round(self,race_track):
-        # If calcharo was last to move, it moves 3 spaces forward
-        if self.last_moved:
-            if self.debug:
-                print(f"{self.name} activated skill and will move 3 spaces forward")
-            self.execute_move(race_track, 3)
+    #If ranked last at the start of turn move 3 more spaces 
+    def execute_move(self, race_track, dice_roll=None):
+        if dice_roll is None:
+            dice_roll = self.roll_dice()
+        for pad in race_track:
+            if pad == []:
+                continue
+            if len(pad) > 0:
+                if pad[0] == self:
+                    if self.debug:
+                        print(f"{self.name} activated skill and will move 3 additional spaces")
+                    dice_roll += 3
+                break
+        super().execute_move(race_track, dice_roll=dice_roll)
 
 class ChangliCube(BaseCube):
     def __init__(self, name="ChangliCube", debug=False):
